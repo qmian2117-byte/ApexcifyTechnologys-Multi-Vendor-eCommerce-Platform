@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketHub - Professional Multi-Vendor eCommerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#1e293b',
+                        dark: '#111827'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white text-gray-900 scroll-smooth">
+
+    <!-- Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100" id="header">
+        <nav class="container mx-auto px-4 py-4 flex items-center justify-between gap-6">
+            <a href="index.html" class="flex items-center gap-2 text-2xl font-bold flex-shrink-0">
+                <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
+                    <i class="fas fa-store"></i>
+                </div>
+                <span class="text-dark">MarketHub</span>
+            </a>
+
+            <!-- Search -->
+            <div class="flex-1 max-w-xl mx-4 hidden md:block">
+                <div class="relative">
+                    <input type="text" id="global-search-input" placeholder="Search products..."
+                           class="w-full px-5 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-primary transition-all">
+                    <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-5">
+                <div id="auth-container" class="flex items-center gap-4">
+                    <a href="login.html" class="text-sm font-semibold hover:text-primary transition-colors">Login</a>
+                    <a href="register.html" class="px-5 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-secondary">Sign Up</a>
+                </div>
+                
+                <div id="user-container" class="hidden flex items-center gap-2">
+                    <a href="user-dashboard.html" class="flex items-center gap-2 font-bold hover:text-primary transition-colors">
+                        <span id="user-display-name" class="text-xs text-dark hidden md:block">User</span>
+                        <div class="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center text-xs font-bold border border-gray-200" id="user-avatar-initial">U</div>
+                    </a>
+                </div>
+
+                <a href="cart.html" class="relative">
+                    <i class="fas fa-shopping-cart text-xl text-gray-700 hover:text-primary transition-colors"></i>
+                    <span class="cart-count absolute -top-1.5 -right-1.5 w-4 h-4 bg-primary text-white text-[10px] rounded-full flex items-center justify-center hidden">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 bg-gray-50/50">
+        <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <span class="inline-block px-3 py-1 bg-indigo-50 text-primary text-[10px] font-black rounded-lg uppercase tracking-[0.3em] mb-2">New Arrivals 2026</span>
+                <h1 class="text-5xl md:text-7xl font-black text-dark leading-none tracking-tighter">
+                    Shop Better <br> <span class="text-primary italic">Easier.</span>
+                </h1>
+                <p class="text-gray-400 font-bold text-lg max-w-lg leading-relaxed">
+                    Find great products from top sellers and high-quality brands. Safe, fast, and very easy to use for everyone.
+                </p>
+                <div class="flex gap-4 pt-4">
+                    <a href="products.html" class="btn-elite btn-primary !px-10 !py-5 !text-[11px] !uppercase !tracking-[0.4em] shadow-2xl shadow-primary/30">
+                        Shop Now
+                    </a>
+                    <a href="products.html" class="btn-elite bg-white border-2 border-gray-100 text-dark !px-10 !py-5 !text-[11px] !uppercase !tracking-[0.4em] hover:border-primary">
+                        Browse More
+                    </a>
+                </div>
+            </div>
+            <div class="hidden lg:block reveal-up">
+                <div class="relative">
+                    <div class="absolute -inset-4 bg-primary/10 blur-3xl rounded-full"></div>
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=80" alt="Hero" class="relative rounded-[4rem] shadow-2xl border-8 border-white object-cover aspect-[4/3] rotate-1">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Categories -->
+    <section class="py-16" id="categories-section">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-xs font-black text-primary uppercase tracking-[0.4em] mb-4 reveal-up">Find by Category</h2>
+            <h3 class="text-4xl font-black text-dark mb-12 tracking-tighter reveal-up">Our Collections</h3>
+            <div id="categories-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6 reveal-up">
+                 <!-- Categories injected by script -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Grid -->
+    <section class="py-16 bg-gray-50/30 border-y border-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12 reveal-up">
+                <div>
+                    <h2 class="text-xs font-black text-primary uppercase tracking-[0.4em] mb-4">Top Choices</h2>
+                    <h3 class="text-4xl font-black text-dark tracking-tighter">Featured Products</h3>
+                </div>
+                <a href="products.html" class="text-[10px] font-black text-gray-400 hover:text-primary transition-colors tracking-[0.3em] uppercase underline underline-offset-8 mb-2">
+                    View All Products <i class="fas fa-arrow-right ml-2 text-[8px]"></i>
+                </a>
+            </div>
+            
+            <div id="featured-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 reveal-up">
+                <!-- Data injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="text-xs font-black text-primary uppercase tracking-[0.4em] mb-4">Reviews</h2>
+                <h3 class="text-4xl font-black text-dark tracking-tighter">What Our Customers Say</h3>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 reveal-up">
+                <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-700 card-glass">
+                    <div class="flex gap-1 text-yellow-400 mb-8 scale-110 origin-left">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-dark font-bold italic mb-10 leading-relaxed text-lg">"Outstanding logistics and premium product quality. MarketHub is our primary source for business procurement."</p>
+                    <div class="flex items-center gap-5 border-t border-gray-50 pt-8">
+                        <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center font-black text-primary text-xl shadow-inner">SC</div>
+                        <div>
+                            <h4 class="text-base font-black text-dark">Sarah Chen</h4>
+                            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Business Buyer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-700 transform lg:-translate-y-6">
+                    <div class="flex gap-1 text-yellow-400 mb-8 scale-110 origin-left">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-dark font-bold italic mb-10 leading-relaxed text-lg">"The best multi-vendor platform I've used. Secure, fast, and remarkably easy to navigate."</p>
+                    <div class="flex items-center gap-5 border-t border-gray-50 pt-8">
+                        <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center font-black text-primary text-xl shadow-inner">JM</div>
+                        <div>
+                            <h4 class="text-base font-black text-dark">James Miller</h4>
+                            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Store Owner</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-700">
+                    <div class="flex gap-1 text-yellow-400 mb-8 scale-110 origin-left">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-dark font-bold italic mb-10 leading-relaxed text-lg">"Impeccable service and absolute security. The product descriptions are accurate and images are clear."</p>
+                    <div class="flex items-center gap-5 border-t border-gray-50 pt-8">
+                        <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center font-black text-primary text-xl shadow-inner">AW</div>
+                        <div>
+                            <h4 class="text-base font-black text-dark">Anna Wright</h4>
+                            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Verified Customer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Footer -->
+    <footer class="mt-8">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="space-y-8">
+                <a href="index.html" class="flex items-center gap-4 text-2xl font-black group">
+                    <div class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-primary/30 group-hover:rotate-12 transition-all">
+                        <i class="fas fa-store text-xl"></i>
+                    </div>
+                    <span class="text-dark tracking-tighter">MarketHub</span>
+                </a>
+                <p class="text-sm text-gray-400 font-bold leading-relaxed">
+                    Giving you the best products from top sellers with safe and fast delivery.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all shadow-inner"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all shadow-inner"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all shadow-inner"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <h4 class="text-[10px] font-black uppercase tracking-[0.4em] text-dark">Explore</h4>
+                <div class="flex flex-col gap-4">
+                    <a href="index.html" class="footer-link !font-bold">Home</a>
+                    <a href="products.html" class="footer-link !font-bold">Products</a>
+                    <a href="cart.html" class="footer-link !font-bold">My Cart</a>
+                    <a href="login.html" class="footer-link !font-bold">Account</a>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <h4 class="text-[10px] font-black uppercase tracking-[0.4em] text-dark">Support</h4>
+                <div class="flex flex-col gap-4">
+                    <a href="track-order.html" class="footer-link !font-bold">Track Order</a>
+                    <a href="#" class="footer-link !font-bold">Shipping Info</a>
+                    <a href="#" class="footer-link !font-bold">Returns</a>
+                    <a href="#" class="footer-link !font-bold">Contact Us</a>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <h4 class="text-[10px] font-black uppercase tracking-[0.4em] text-dark">Join Us</h4>
+                <p class="text-xs text-gray-400 font-bold">Subscribe for updates and offers.</p>
+                <form class="space-y-4">
+                    <div class="relative">
+                        <input type="email" placeholder="Email.." class="input-elite text-xs py-4 pr-12 w-full" required>
+                        <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-primary text-white rounded-xl flex items-center justify-center hover:bg-dark transition-all">
+                            <i class="fas fa-paper-plane text-[10px]"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="border-t border-gray-100 py-10 text-center">
+            <p class="text-[10px] font-black text-gray-300 uppercase tracking-[0.6em]">&copy; 2026 MARKET HUB. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Navbar Scroll Logic
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('navbar-scrolled');
+                } else {
+                    header.classList.remove('navbar-scrolled');
+                }
+            });
+
+            // Scroll Reveal Implementation
+            const reveals = document.querySelectorAll('.reveal-up');
+            const revealOnScroll = () => {
+                reveals.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 100) {
+                        el.classList.add('reveal-up-active');
+                        // In styles.css, let's make sure reveal-up-active works
+                    }
+                });
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll(); // Initial check
+
+            // Render Categories
+            const categories = [
+                { name: 'Electronics', icon: 'laptop' },
+                { name: 'Fashion', icon: 'tshirt' },
+                { name: 'Home & Living', icon: 'house-chimney-window' },
+                { name: 'Beauty', icon: 'spa' },
+                { name: 'Sports', icon: 'basketball' },
+                { name: 'Books', icon: 'book' },
+                { name: 'Toys', icon: 'puzzle-piece' },
+                { name: 'Automotive', icon: 'car' }
+            ];
+            
+            const catGrid = document.getElementById('categories-grid');
+            if (catGrid) {
+                catGrid.innerHTML = categories.map(cat => `
+                    <a href="products.html?category=${encodeURIComponent(cat.name)}" class="group block stagger-item">
+                        <div class="w-full aspect-square bg-white rounded-3xl flex items-center justify-center mb-4 group-hover:bg-primary group-hover:shadow-2xl group-hover:shadow-primary/30 transition-all duration-500 border border-gray-100 group-hover:border-primary group-hover:-translate-y-2">
+                            <i class="fas fa-${cat.icon} text-3xl text-gray-300 group-hover:text-white transition-all transform group-hover:scale-110"></i>
+                        </div>
+                        <span class="font-black text-dark group-hover:text-primary transition-colors text-[10px] uppercase tracking-[0.2em] block text-center">${cat.name}</span>
+                    </a>
+                `).join('');
+            }
+
+            try {
+                const response = await MarketHubAPI.products.getFeatured();
+                if (response.success && response.products) {
+                    const grid = document.getElementById('featured-grid');
+                    grid.innerHTML = response.products.slice(0, 8).map(p => `
+                        <div class="product-card bg-white rounded-[2.5rem] p-4 border border-gray-100 group cursor-pointer reveal-up" onclick="window.location.href='product-detail.html?id=${p._id}'">
+                            <div class="relative rounded-[2rem] overflow-hidden aspect-square mb-6">
+                                <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                ${p.badge ? `<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">${p.badge}</div>` : ''}
+                                <button onclick="event.stopPropagation(); MarketHub.cart.add({_id: '${p._id}', name: '${p.name.replace(/'/g, "\\'")}', price: ${p.price}, image: '${p.image}', category: '${p.category}'})" 
+                                        class="absolute bottom-4 right-4 w-12 h-12 bg-white text-dark rounded-2xl flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-xl hover:scale-110 active:scale-95 translate-y-20 group-hover:translate-y-0 duration-500">
+                                    <i class="fas fa-shopping-cart text-base"></i>
+                                </button>
+                            </div>
+                            <div class="px-2 pb-2">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                                    <p class="text-[10px] font-black text-primary uppercase tracking-widest">${p.category}</p>
+                                </div>
+                                <h3 class="text-lg font-black text-dark mb-4 truncate leading-tight">${p.name}</h3>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xl font-black text-dark tracking-tighter">PKR ${p.price.toLocaleString()}</span>
+                                    <div class="flex items-center gap-1 text-[10px] font-bold text-gray-400">
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        <span>4.8 (2.4k)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (err) { console.error(err); }
+        });
+    </script>
+    <style>
+        .reveal-up { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-up-active { opacity: 1; transform: translateY(0); }
+        .stagger-item { transition-delay: calc(0.1s * var(--idx)); }
+    </style>
+</body>
+</html>

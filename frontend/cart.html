@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - MarketHub Professional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#1e40af',
+                        dark: '#0f172a'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen text-gray-900">
+
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2 text-2xl font-bold">
+                <div class="w-9 h-9 bg-primary rounded-lg flex items-center justify-center text-white"><i class="fas fa-store"></i></div>
+                <span class="text-dark">MarketHub</span>
+            </a>
+            <div class="flex items-center gap-6">
+                <div id="auth-container" class="flex items-center gap-4">
+                    <a href="login.html" class="text-sm font-semibold hover:text-primary transition-colors">Login</a>
+                    <a href="register.html" class="px-5 py-2 bg-primary text-white rounded-lg text-sm font-semibold">Sign Up</a>
+                </div>
+                <div id="user-container" class="hidden flex items-center gap-2">
+                    <a href="user-dashboard.html" class="flex items-center gap-2 font-bold hover:text-primary transition-colors">
+                        <span id="user-display-name" class="text-xs text-dark hidden md:block">User</span>
+                        <div class="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center text-xs font-bold border border-gray-200" id="user-avatar-initial">U</div>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-1 container mx-auto px-6 py-16">
+        <!-- Checkout Steps Matrix -->
+        <div class="flex items-center justify-between mb-16 max-w-2xl mx-auto reveal-up">
+            <div class="flex flex-col items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-black shadow-lg shadow-primary/30">1</div>
+                <span class="text-[10px] font-black uppercase tracking-widest text-primary">Your Cart</span>
+            </div>
+            <div class="h-px bg-gray-100 flex-1 mx-4 mb-10 opacity-50"></div>
+            <div class="flex flex-col items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gray-50 text-gray-300 flex items-center justify-center font-black border border-gray-100">2</div>
+                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Shipping Mode</span>
+            </div>
+            <div class="h-px bg-gray-100 flex-1 mx-4 mb-10 opacity-50"></div>
+            <div class="flex flex-col items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gray-50 text-gray-300 flex items-center justify-center font-black border border-gray-100">3</div>
+                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Order Placed</span>
+            </div>
+        </div>
+
+        <div id="cart-wrapper" class="hidden grid lg:grid-cols-3 gap-16 items-start reveal-up">
+            <!-- Left: Assets in Pipeline -->
+            <div class="lg:col-span-2 space-y-8" id="cart-list">
+                <!-- Items injected by script -->
+            </div>
+
+            <!-- Right: Settlement Summary Matrix -->
+            <aside class="sticky top-32 card-glass p-10 rounded-[3rem] border border-gray-100 shadow-2xl shadow-indigo-500/5">
+                <h2 class="text-xs font-black text-dark uppercase tracking-[0.3em] mb-12 flex items-center justify-between">
+                    Order Summary
+                    <i class="fas fa-receipt text-primary opacity-50"></i>
+                </h2>
+                
+                <div class="space-y-8 mb-12">
+                    <div class="flex justify-between items-center text-gray-400 font-bold text-xs uppercase tracking-widest">
+                        <span>Items Price</span>
+                        <span id="subtotal" class="text-dark font-black tracking-tighter text-sm">PKR 0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-gray-400 font-bold text-xs uppercase tracking-widest">
+                        <span>Standard Shipping</span>
+                        <span class="text-success font-black tracking-widest">FREE</span>
+                    </div>
+                    <div class="h-px bg-gray-50 opacity-50"></div>
+                    <div class="space-y-2">
+                        <span class="text-[9px] font-black uppercase tracking-[0.4em] text-primary block">Final Total</span>
+                        <h3 id="total" class="text-4xl font-black text-dark tracking-tighter">PKR 0</h3>
+                    </div>
+                </div>
+
+                <button onclick="window.location.href='checkout.html'" class="btn-elite btn-primary w-full !h-16 !text-sm !font-black !uppercase !tracking-[0.3em] shadow-xl shadow-primary/25">
+                    Go To Checkout <i class="fas fa-arrow-right ml-3"></i>
+                </button>
+
+                <!-- Certification Hub -->
+                <div class="mt-12 pt-8 border-t border-gray-50 space-y-4">
+                     <p class="text-[9px] font-black text-gray-300 uppercase tracking-widest text-center mb-6 italic">Secure Payments Accepted:</p>
+                     <div class="flex items-center justify-center gap-6 opacity-30 grayscale saturate-0 contrast-125">
+                          <i class="fab fa-cc-visa text-2xl"></i>
+                          <i class="fab fa-cc-mastercard text-2xl"></i>
+                          <i class="fab fa-cc-stripe text-2xl"></i>
+                          <i class="fab fa-cc-amazon-pay text-2xl"></i>
+                     </div>
+                </div>
+            </aside>
+        </div>
+
+        <div id="empty-state" class="hidden flex flex-col items-center justify-center py-40 text-center animate-up">
+            <div class="w-32 h-32 bg-gray-50 rounded-[2.5rem] flex items-center justify-center mb-10 text-gray-100 text-5xl relative border border-gray-100 rotate-6 group hover:rotate-0 transition-transform">
+                <i class="fas fa-shopping-bag"></i>
+                <div class="absolute -top-2 -right-2 w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary text-xl border-4 border-white shadow-xl"><i class="fas fa-times"></i></div>
+            </div>
+            <h2 class="text-4xl font-extrabold text-dark tracking-tighter mb-4">Your Cart Is Empty</h2>
+            <p class="text-gray-400 font-medium text-lg mb-12 max-w-sm mx-auto">Looks like you haven't added anything to your cart yet.</p>
+            <a href="products.html" class="btn-elite btn-primary !px-12 !py-5 !text-xs !uppercase !tracking-widest">
+                Start Shopping
+            </a>
+        </div>
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="mt-8">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 pt-16 border-t border-gray-50">
+            <div class="space-y-8">
+                <a href="index.html" class="flex items-center gap-3 text-2xl font-black">
+                    <div class="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary/30"><i class="fas fa-store"></i></div>
+                    <span class="text-dark tracking-tighter">MarketHub</span>
+                </a>
+                <p class="text-sm text-gray-400 font-semibold leading-relaxed">
+                    Giving you the best products from top sellers with safe delivery.
+                </p>
+            </div>
+            <div class="space-y-8">
+                <h4 class="text-xs font-black uppercase tracking-[0.3em] text-dark">Explore</h4>
+                <div class="flex flex-col gap-3">
+                    <a href="index.html" class="footer-link">Home</a>
+                    <a href="products.html" class="footer-link">Products</a>
+                    <a href="cart.html" class="footer-link">My Cart</a>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <h4 class="text-xs font-black uppercase tracking-[0.3em] text-dark">Support</h4>
+                <div class="flex flex-col gap-3">
+                    <a href="track-order.html" class="footer-link">Track Order</a>
+                    <a href="#" class="footer-link">Help Center</a>
+                    <a href="#" class="footer-link">Returns</a>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <h4 class="text-xs font-black uppercase tracking-[0.3em] text-dark">Updates</h4>
+                <div class="flex gap-2">
+                    <input type="email" placeholder="Email..." class="input-elite text-xs py-3.5 flex-1 shadow-sm">
+                    <button class="w-12 h-12 bg-dark text-white rounded-xl hover:bg-primary transition-all"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-100 py-12 text-center">
+            <p class="text-[10px] font-black text-gray-300 uppercase tracking-[0.5em]">&copy; 2026 MARKET HUB. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function render() {
+            const items = JSON.parse(localStorage.getItem('cart')) || [];
+            const list = document.getElementById('cart-list');
+            const wrapper = document.getElementById('cart-wrapper');
+            const empty = document.getElementById('empty-state');
+            const badge = document.querySelector('.cart-count');
+
+            if (items.length === 0) {
+                wrapper.classList.add('hidden');
+                empty.classList.remove('hidden');
+                if (badge) badge.classList.add('hidden');
+                return;
+            }
+
+            wrapper.classList.remove('hidden');
+            empty.classList.remove('hidden');
+            if (badge) {
+                badge.classList.remove('hidden');
+                badge.innerText = `${items.reduce((s,i) => s + i.quantity, 0)} Items Slated`;
+            }
+
+            let subtotal = 0;
+            list.innerHTML = items.map(i => {
+                subtotal += i.price * i.quantity;
+                return `
+                    <div class="bg-white rounded-[2.5rem] p-6 border border-gray-50 flex flex-col sm:flex-row gap-8 items-center hover:shadow-2xl hover:border-primary/10 transition-all duration-500 group reveal-up-active">
+                        <div class="w-32 h-32 rounded-[2rem] overflow-hidden bg-gray-50 flex-shrink-0 group-hover:scale-105 transition-transform duration-500 border border-gray-100">
+                            <img src="${i.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 w-full space-y-6">
+                            <div class="flex justify-between items-start">
+                                <div class="space-y-1">
+                                    <p class="text-[10px] font-black text-primary/70 uppercase tracking-widest">${i.category}</p>
+                                    <h3 class="text-xl font-black text-dark tracking-tighter hover:text-primary transition-colors cursor-pointer" onclick="window.location.href='product-detail.html?id=${i._id}'">${i.name}</h3>
+                                </div>
+                                <button onclick="removeItem('${i._id}')" class="w-10 h-10 bg-gray-50 text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all flex items-center justify-center">
+                                    <i class="fas fa-trash-alt text-xs"></i>
+                                </button>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div class="flex items-center bg-gray-50 rounded-xl p-1.5 border border-indigo-50 shadow-inner">
+                                    <button onclick="update('${i._id}', -1)" class="w-9 h-9 rounded-lg hover:bg-white flex items-center justify-center font-black text-sm transition-all active:scale-90 opacity-50 hover:opacity-100"><i class="fas fa-minus text-[10px]"></i></button>
+                                    <span class="w-12 text-center font-black text-sm text-dark">${i.quantity}</span>
+                                    <button onclick="update('${i._id}', 1)" class="w-9 h-9 rounded-lg hover:bg-white flex items-center justify-center font-black text-sm transition-all active:scale-90 opacity-50 hover:opacity-100"><i class="fas fa-plus text-[10px]"></i></button>
+                                </div>
+                                <p class="text-2xl font-black text-dark tracking-tighter">PKR ${(i.price * i.quantity).toLocaleString()}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('subtotal').innerText = `PKR ${subtotal.toLocaleString()}`;
+            document.getElementById('total').innerText = `PKR ${subtotal.toLocaleString()}`;
+        }
+
+        function update(id, delta) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const idx = cart.findIndex(i => i._id === id);
+            if (idx > -1) {
+                cart[idx].quantity = Math.max(1, cart[idx].quantity + delta);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                MarketHub.updateCartCount();
+                render();
+            }
+        }
+
+        function removeItem(id) {
+            MarketHub.cart.remove(id);
+            render();
+        }
+
+        document.addEventListener('DOMContentLoaded', render);
+    </script>
+</body>
+</html>

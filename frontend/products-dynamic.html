@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - MarketHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#2563eb',
+                        'secondary': '#7c3aed',
+                        'accent': '#f59e0b',
+                        'dark': '#1f2937'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .product-card:hover { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+        <div class="bg-dark text-white py-2">
+            <div class="container mx-auto px-4 flex justify-between items-center text-sm">
+                <div class="flex items-center gap-6">
+                    <span class="flex items-center gap-2"><i class="fas fa-phone"></i> 03428762481</span>
+                    <span class="flex items-center gap-2"><i class="fas fa-envelope"></i> qmian2117@gmail.com</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="track-order.html" class="hover:text-primary transition-colors">Track Order</a>
+                    <a href="#" class="hover:text-primary transition-colors">Help</a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-2 text-2xl font-bold">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-shopping-bag text-white text-lg"></i>
+                    </div>
+                    <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">MarketHub</span>
+                </a>
+
+                <div class="flex-1 max-w-2xl mx-8">
+                    <form onsubmit="handleProductSearch(event)" class="relative">
+                        <input id="search-input" type="text" placeholder="Search for products..." class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:border-primary transition-colors">
+                        <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <button type="submit" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary transition-colors">Search</button>
+                    </form>
+                </div>
+
+                <div class="flex items-center gap-6">
+                    <a href="user-dashboard.html" class="flex items-center gap-2 hover:text-primary transition-colors">
+                        <i class="fas fa-user"></i>
+                        <span>Account</span>
+                    </a>
+                    <a href="cart.html" class="flex items-center gap-2 hover:text-primary transition-colors relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Cart</span>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar Filters -->
+            <aside class="w-full lg:w-80 lg:flex-shrink-0">
+                <div class="bg-white rounded-2xl p-6 shadow-sm lg:sticky lg:top-32">
+                    <div class="flex justify-between items-center mb-6 lg:block">
+                        <h2 class="text-xl font-bold">Filters</h2>
+                        <button onclick="toggleFiltersMobile()" class="lg:hidden text-gray-600">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-4">Categories</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="category" data-value="electronics">
+                                <span class="group-hover:text-primary transition-colors">Electronics</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="category" data-value="fashion">
+                                <span class="group-hover:text-primary transition-colors">Fashion</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="category" data-value="home & living">
+                                <span class="group-hover:text-primary transition-colors">Home & Living</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="category" data-value="beauty">
+                                <span class="group-hover:text-primary transition-colors">Beauty</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="category" data-value="sports">
+                                <span class="group-hover:text-primary transition-colors">Sports</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Price Range -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-4">Price Range</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="price" data-value="0-50">
+                                <span class="group-hover:text-primary transition-colors">Under PKR 50</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="price" data-value="50-100">
+                                <span class="group-hover:text-primary transition-colors">PKR 50 - PKR 100</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="price" data-value="100-500">
+                                <span class="group-hover:text-primary transition-colors">PKR 100 - PKR 500</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="price" data-value="500+">
+                                <span class="group-hover:text-primary transition-colors">PKR 500+</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-4">Rating</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="rating" data-value="4+">
+                                <span class="group-hover:text-primary transition-colors">4★ & Up</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="rating" data-value="3+">
+                                <span class="group-hover:text-primary transition-colors">3★ & Up</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Availability -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold mb-4">Availability</h3>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" class="w-4 h-4 text-primary rounded" data-filter="availability" data-value="instock">
+                            <span class="group-hover:text-primary transition-colors">In Stock Only</span>
+                        </label>
+                    </div>
+
+                    <button onclick="applyFilters()" class="w-full px-6 py-3 bg-primary text-white rounded-full font-semibold hover:bg-secondary transition-all mb-3">
+                        Apply Filters
+                    </button>
+                    <button onclick="clearAllFilters()" class="w-full px-6 py-3 border border-gray-300 text-gray-600 rounded-full font-semibold hover:border-primary hover:text-primary transition-all">
+                        Clear All
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Products Grid -->
+            <main class="flex-1">
+                <!-- Toolbar -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm mb-8">
+                    <div class="flex items-center justify-between flex-wrap gap-4">
+                        <div>
+                            <h1 class="text-2xl font-bold mb-1">All Products</h1>
+                            <p id="results-info" class="text-gray-600">Loading products...</p>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm text-gray-600">Sort by:</span>
+                                <select id="sort-select" onchange="applySort()" class="px-4 py-2 border border-gray-300 rounded-lg focus:border-primary focus:outline-none">
+                                    <option value="featured">Featured</option>
+                                    <option value="price_low">Price: Low to High</option>
+                                    <option value="price_high">Price: High to Low</option>
+                                    <option value="rating">Best Rating</option>
+                                    <option value="newest">Newest</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Loading state -->
+                    <div class="col-span-full text-center py-12">
+                        <div class="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+                        <p class="text-gray-600">Loading products...</p>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div id="pagination" class="flex justify-center items-center gap-2">
+                    <!-- Will be populated dynamically -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Global variables
+        let allProducts = [];
+        let filteredProducts = [];
+        let currentPage = 1;
+        const productsPerPage = 12;
+        let currentFilters = {};
+        let currentSort = 'featured';
+
+        // Load products on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                await loadProducts();
+                handleURLParams();
+            } catch (error) {
+                console.error('Error initializing page:', error);
+                showErrorMessage('Failed to initialize page. Please refresh.');
+            }
+        });
+
+        // Load products from API
+        async function loadProducts() {
+            try {
+                console.log('Loading products...');
+                const response = await fetch('http://localhost:5000/api/products');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Products loaded:', data);
+
+                if (data.success && data.products) {
+                    allProducts = data.products;
+                    filteredProducts = [...allProducts];
+                    console.log(`Loaded ${allProducts.length} products`);
+                    renderProducts();
+                    updateResultsInfo();
+                } else {
+                    console.error('Invalid response format');
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        // Handle URL parameters
+        function handleURLParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Handle category filter
+            const category = urlParams.get('category');
+            if (category) {
+                console.log('Category filter detected:', category);
+                const categoryFilter = document.querySelector(`input[data-filter="category"][data-value="${category}"]`);
+                if (categoryFilter) {
+                    categoryFilter.checked = true;
+                    setTimeout(() => applyFilters(), 100);
+                }
+            }
+
+            // Handle search query
+            const search = urlParams.get('search');
+            if (search) {
+                console.log('Search query detected:', search);
+                document.getElementById('search-input').value = search;
+                setTimeout(() => applyFilters(), 100);
+            }
+        }
+
+        // Apply all filters
+        function applyFilters() {
+            console.log('Applying filters...');
+            currentFilters = {};
+            const filterInputs = document.querySelectorAll('input[data-filter]:checked');
+
+            filterInputs.forEach(input => {
+                const filterType = input.dataset.filter;
+                const filterValue = input.dataset.value;
+
+                if (!currentFilters[filterType]) {
+                    currentFilters[filterType] = [];
+                }
+                currentFilters[filterType].push(filterValue);
+            });
+
+            // Add search filter
+            const searchQuery = document.getElementById('search-input').value.trim();
+            if (searchQuery) {
+                currentFilters.search = searchQuery;
+            }
+
+            console.log('Current filters:', currentFilters);
+            filterProducts();
+            currentPage = 1;
+            renderProducts();
+            updateResultsInfo();
+        }
+
+        // Filter products based on current filters
+        function filterProducts() {
+            filteredProducts = allProducts.filter(product => {
+                // Category filter
+                if (currentFilters.category && currentFilters.category.length > 0) {
+                    if (!currentFilters.category.includes(product.category.toLowerCase())) {
+                        return false;
+                    }
+                }
+
+                // Price filter
+                if (currentFilters.price && currentFilters.price.length > 0) {
+                    const price = parseFloat(product.price);
+                    const priceMatches = currentFilters.price.some(range => {
+                        if (range === '0-50') return price >= 0 && price <= 50;
+                        if (range === '50-100') return price >= 50 && price <= 100;
+                        if (range === '100-500') return price >= 100 && price <= 500;
+                        if (range === '500+') return price >= 500;
+                        return false;
+                    });
+                    if (!priceMatches) return false;
+                }
+
+                // Rating filter
+                if (currentFilters.rating && currentFilters.rating.length > 0) {
+                    const rating = parseFloat(product.rating);
+                    const ratingMatches = currentFilters.rating.some(minRating => {
+                        const min = parseFloat(minRating.replace('+', ''));
+                        return rating >= min;
+                    });
+                    if (!ratingMatches) return false;
+                }
+
+                // Availability filter
+                if (currentFilters.availability && currentFilters.availability.includes('instock')) {
+                    if (product.stock <= 0) return false;
+                }
+
+                // Search filter
+                if (currentFilters.search) {
+                    const searchLower = currentFilters.search.toLowerCase();
+                    return product.name.toLowerCase().includes(searchLower) ||
+                           product.description.toLowerCase().includes(searchLower) ||
+                           product.category.toLowerCase().includes(searchLower);
+                }
+
+                return true;
+            });
+
+            // Apply sorting
+            applySortToFiltered();
+        }
+
+        // Apply sort to filtered products
+        function applySortToFiltered() {
+            switch (currentSort) {
+                case 'price_low':
+                    filteredProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                    break;
+                case 'price_high':
+                    filteredProducts.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+                    break;
+                case 'rating':
+                    filteredProducts.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+                    break;
+                case 'newest':
+                    filteredProducts.sort((a, b) => a.id - b.id);
+                    break;
+                default:
+                    // Featured - keep original order
+                    break;
+            }
+        }
+
+        // Apply sort
+        function applySort() {
+            currentSort = document.getElementById('sort-select').value;
+            applySortToFiltered();
+            currentPage = 1;
+            renderProducts();
+        }
+
+        // Clear all filters
+        function clearAllFilters() {
+            document.querySelectorAll('input[data-filter]').forEach(input => {
+                input.checked = false;
+            });
+            document.getElementById('search-input').value = '';
+            currentFilters = {};
+            filteredProducts = [...allProducts];
+            currentPage = 1;
+            renderProducts();
+            updateResultsInfo();
+        }
+
+        // Render products
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const productsToShow = filteredProducts.slice(startIndex, endIndex);
+
+            console.log(`Rendering ${productsToShow.length} products (${startIndex}-${endIndex} of ${filteredProducts.length})`);
+
+            if (productsToShow.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">No products found</h3>
+                        <p class="text-gray-500">Try adjusting your filters or search terms</p>
+                    </div>
+                `;
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+
+            grid.innerHTML = productsToShow.map(product => {
+                const originalPrice = product.originalPrice && product.originalPrice > product.price ?
+                    `<span class="text-gray-400 line-through ml-2">PKR ${parseFloat(product.originalPrice).toFixed(2)}</span>` : '';
+                const discount = product.originalPrice && product.originalPrice > product.price ?
+                    `<span class="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">-${Math.round((1 - product.price/product.originalPrice) * 100)}%</span>` : '';
+
+                return `
+                    <div class="product-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group">
+                        <div class="relative overflow-hidden">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500">
+                            ${discount}
+                            <div class="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="addToWishlist('${product.id}')" class="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors shadow-lg">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <a href="product-detail.html?id=${product.id}" class="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors shadow-lg">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="text-sm text-gray-500 mb-2">${product.category}</div>
+                            <a href="product-detail.html?id=${product.id}" class="block">
+                                <h3 class="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">${product.name}</h3>
+                            </a>
+                            <div class="flex items-center gap-1 mb-3">
+                                ${generateStarsHTML(product.rating)}
+                                <span class="text-sm text-gray-600 ml-2">(${product.rating})</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-2xl font-bold text-primary">PKR ${parseFloat(product.price).toFixed(2)}</span>
+                                    ${originalPrice}
+                                </div>
+                                <button onclick="addToCart('${product.id}')" class="w-10 h-10 bg-primary text-white rounded-full hover:bg-secondary transition-colors flex items-center justify-center">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            renderPagination();
+        }
+
+        // Generate stars HTML
+        function generateStarsHTML(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+            let starsHTML = '';
+            for (let i = 0; i < fullStars; i++) {
+                starsHTML += `<i class="fas fa-star text-yellow-400 text-sm"></i>`;
+            }
+            if (hasHalfStar) {
+                starsHTML += `<i class="fas fa-star-half-alt text-yellow-400 text-sm"></i>`;
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                starsHTML += `<i class="far fa-star text-yellow-400 text-sm"></i>`;
+            }
+            return starsHTML;
+        }
+
+        // Render pagination
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            const pagination = document.getElementById('pagination');
+
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+
+            // Previous button
+            if (currentPage > 1) {
+                paginationHTML += `
+                    <button onclick="changePage(${currentPage - 1})" class="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:border-primary hover:text-primary transition-colors">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                `;
+            }
+
+            // Page numbers
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, currentPage + 2);
+
+            if (startPage > 1) {
+                paginationHTML += `
+                    <button onclick="changePage(1)" class="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:border-primary hover:text-primary transition-colors">1</button>
+                `;
+                if (startPage > 2) {
+                    paginationHTML += `<span class="text-gray-500">...</span>`;
+                }
+            }
+
+            for (let page = startPage; page <= endPage; page++) {
+                const isActive = page === currentPage;
+                paginationHTML += `
+                    <button onclick="changePage(${page})" class="w-10 h-10 flex items-center justify-center ${isActive ? 'bg-primary text-white' : 'border border-gray-300 hover:border-primary hover:text-primary'} rounded-lg font-semibold transition-colors">${page}</button>
+                `;
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationHTML += `<span class="text-gray-500">...</span>`;
+                }
+                paginationHTML += `
+                    <button onclick="changePage(${totalPages})" class="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:border-primary hover:text-primary transition-colors">${totalPages}</button>
+                `;
+            }
+
+            // Next button
+            if (currentPage < totalPages) {
+                paginationHTML += `
+                    <button onclick="changePage(${currentPage + 1})" class="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:border-primary hover:text-primary transition-colors">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                `;
+            }
+
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // Change page
+        function changePage(page) {
+            currentPage = page;
+            renderProducts();
+            updateResultsInfo();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Update results info
+        function updateResultsInfo() {
+            const startIndex = filteredProducts.length > 0 ? ((currentPage - 1) * productsPerPage) + 1 : 0;
+            const endIndex = Math.min(currentPage * productsPerPage, filteredProducts.length);
+            const total = filteredProducts.length;
+
+            document.getElementById('results-info').textContent =
+                `Showing ${startIndex}-${endIndex} of ${total} results`;
+        }
+
+        // Handle product search
+        function handleProductSearch(event) {
+            if (event) event.preventDefault();
+            applyFilters();
+        }
+
+        // Add to cart function
+        function addToCart(productId) {
+            const product = allProducts.find(p => p.id == productId);
+            if (product) {
+                console.log('Adding to cart:', product.name);
+                if (typeof MarketHub !== 'undefined' && MarketHub.cart) {
+                    MarketHub.cart.add(product);
+                } else {
+                    // Fallback if MarketHub is not loaded
+                    showToast('Added to cart!', 'success');
+                }
+            }
+        }
+
+        // Add to wishlist function
+        function addToWishlist(productId) {
+            if (typeof MarketHub !== 'undefined' && MarketHub.wishlist) {
+                MarketHub.wishlist.toggle(productId);
+            } else {
+                showToast('Added to wishlist!', 'success');
+            }
+        }
+
+        // Simple toast function for feedback
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-20 right-4 px-6 py-3 rounded-lg shadow-lg z-50 text-white ${
+                type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+            }`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

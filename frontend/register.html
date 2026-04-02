@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - MarketHub Elite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#4f46e5', dark: '#0f172a' },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white min-h-screen flex flex-col md:flex-row">
+
+    <!-- Brand Pane -->
+    <div class="hidden md:flex w-1/2 p-24 bg-dark text-white flex-col justify-between relative overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&q=80" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-dark/80 via-dark/20 to-transparent"></div>
+        </div>
+        
+        <div class="relative z-10">
+            <a href="index.html" class="flex items-center gap-4 text-3xl font-black tracking-tighter group transition-all">
+                <div class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center shadow-2xl shadow-primary/30 group-hover:rotate-12 transition-transform">
+                    <i class="fas fa-store text-white text-xl"></i>
+                </div>
+                <span>MarketHub</span>
+            </a>
+        </div>
+ 
+        <div class="relative z-10 max-w-lg">
+            <h1 class="text-7xl font-black mb-10 tracking-tighter leading-none">Shop Simple <br> Shop Better.</h1>
+            <p class="text-white/80 font-bold text-xl leading-relaxed tracking-tight">Join a global network of buyers and sellers. Start your journey in the most trusted marketplace today.</p>
+        </div>
+ 
+        <div class="relative z-10 flex gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/30">
+            <p>&copy; 2026 MarketHub Infrastructure</p>
+            <p>Secure Account Setup</p>
+        </div>
+    </div>
+ 
+    <!-- Interface Pane -->
+    <div class="flex-1 flex flex-col items-center justify-center p-8 md:p-24 relative overflow-y-auto bg-gray-50/10">
+        <div class="w-full max-w-sm my-auto">
+            <div class="mb-12">
+                <a href="index.html" class="md:hidden flex items-center gap-4 text-3xl font-black mb-10"><i class="fas fa-store text-primary"></i> MarketHub</a>
+                <h2 class="text-5xl font-black text-dark tracking-tighter mb-5">Join Us</h2>
+                <p class="text-gray-400 font-black text-[11px] uppercase tracking-[0.2em]">Create your professional account below.</p>
+            </div>
+ 
+            <form id="register-form" class="space-y-6">
+                <div class="space-y-3">
+                    <label class="text-[10px] font-black text-primary uppercase tracking-[0.4em] ml-1">Full Name</label>
+                    <input type="text" id="name" required class="input-elite text-lg !font-black !py-5 !bg-white border-2 border-transparent focus:border-primary/20 shadow-xl shadow-indigo-500/5" placeholder="John Doe">
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="text-[10px] font-black text-primary uppercase tracking-[0.4em] ml-1">Email Address</label>
+                    <input type="email" id="email" required class="input-elite text-lg !font-black !py-5 !bg-white border-2 border-transparent focus:border-primary/20 shadow-xl shadow-indigo-500/5" placeholder="name@email.com">
+                </div>
+ 
+                <div class="space-y-3">
+                    <label class="text-[10px] font-black text-primary uppercase tracking-[0.4em] ml-1">Password</label>
+                    <input type="password" id="password" required class="input-elite text-lg !font-black !py-5 !bg-white border-2 border-transparent focus:border-primary/20 shadow-xl shadow-indigo-500/5" placeholder="••••••••">
+                </div>
+ 
+                <div class="space-y-3">
+                    <label class="text-[10px] font-black text-primary uppercase tracking-[0.4em] ml-1">Account Type</label>
+                    <select id="role" class="input-elite text-xs !font-black !py-5 !bg-white border-2 border-transparent focus:border-primary/20 uppercase tracking-[0.2em] cursor-pointer">
+                        <option value="customer">Buyer Account</option>
+                        <option value="vendor">Seller Account</option>
+                    </select>
+                </div>
+ 
+                <div class="pt-6">
+                    <button type="submit" id="auth-btn" class="btn-elite btn-primary w-full !py-6 !font-black !text-[11px] !uppercase !tracking-[0.5em] shadow-2xl shadow-primary/30 active:scale-95 transition-all">
+                        Create My Account <i class="fas fa-check ml-3 text-[10px] opacity-30"></i>
+                    </button>
+                </div>
+            </form>
+ 
+            <div class="mt-14 pt-8 border-t border-gray-100 flex flex-col items-center gap-6">
+                <p class="text-gray-400 font-bold text-xs">Already have an account?</p>
+                <a href="login.html" class="text-[11px] font-black text-dark hover:text-primary transition-colors tracking-[0.4em] uppercase underline underline-offset-8">Sign In Instead</a>
+            </div>
+        </div>
+    </div>
+ 
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+    <script>
+        if (MarketHubAPI.auth.getUser()) {
+            window.location.href = 'user-dashboard.html';
+        }
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('auth-btn');
+            const data = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                role: document.getElementById('role').value
+            };
+            try {
+                btn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> CREATING ACCOUNT...';
+                btn.disabled = true;
+                const response = await MarketHubAPI.auth.register(data);
+                if (response.success) { 
+                    showToast('Account created successfully!', 'success'); 
+                    setTimeout(() => window.location.href = 'user-dashboard.html', 1500); 
+                } else { 
+                    showToast(response.message || 'Error occurred. Please try again.', 'error'); 
+                    btn.innerHTML = 'Create My Account <i class="fas fa-check ml-3 text-[10px] opacity-30"></i>'; 
+                    btn.disabled = false; 
+                }
+            } catch (err) { 
+                console.error(err);
+                showToast(err.message || 'Connection error. Please try again.', 'error');
+                btn.innerHTML = 'Create My Account';
+                btn.disabled = false;
+            }
+        });
+    </script>
+
+
+</body>
+</html>

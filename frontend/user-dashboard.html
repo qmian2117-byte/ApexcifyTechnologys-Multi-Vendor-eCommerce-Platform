@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - MarketHub Professional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#1e293b',
+                        dark: '#111827'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen text-gray-900 scroll-smooth">
+
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2 text-2xl font-bold">
+                <div class="w-9 h-9 bg-primary rounded-lg flex items-center justify-center text-white"><i class="fas fa-store text-sm"></i></div>
+                <span class="text-dark">MarketHub</span>
+            </a>
+            <div class="flex items-center gap-6">
+                <button onclick="MarketHubAPI.auth.logout()" class="text-xs font-bold text-gray-400 hover:text-red-500 transition-colors uppercase tracking-widest">Logout <i class="fas fa-power-off ml-2"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-1 container mx-auto px-6 py-12">
+        <div class="flex flex-col lg:flex-row gap-12">
+            
+            <!-- Sidebar Navigation -->
+            <aside class="w-full lg:w-80 space-y-8">
+                <div class="bg-white/70 backdrop-blur-xl rounded-[2.5rem] p-10 border border-gray-100 shadow-sm text-center card-glass reveal-up">
+                    <div id="user-avatar-large" class="w-24 h-24 bg-primary text-white rounded-[2rem] flex items-center justify-center text-4xl font-black mx-auto mb-6 shadow-2xl shadow-primary/30 rotate-3">U</div>
+                    <h2 id="display-name" class="text-2xl font-black text-dark mb-2 tracking-tighter">User Name</h2>
+                    <p id="display-email" class="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-8">user@example.com</p>
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-success/10 text-success rounded-full text-[10px] font-black uppercase tracking-widest border border-success/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-success animate-pulse"></span>
+                        Account Verified
+                    </div>
+                </div>
+
+                <nav class="flex flex-col gap-2 reveal-up">
+                    <button onclick="switchTab('overview')" class="dash-btn active" id="btn-overview">
+                        <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100 group-hover:bg-primary transition-all"><i class="fas fa-th-large w-6 text-center text-xs"></i></div>
+                        Overview
+                    </button>
+                    <button onclick="switchTab('orders')" class="dash-btn" id="btn-orders">
+                        <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100"><i class="fas fa-receipt w-6 text-center text-xs"></i></div>
+                        My Orders
+                    </button>
+                    <button onclick="switchTab('wishlist')" class="dash-btn" id="btn-wishlist">
+                        <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100"><i class="fas fa-heart w-6 text-center text-xs"></i></div>
+                        Wishlist
+                    </button>
+                    <button onclick="switchTab('profile')" class="dash-btn" id="btn-profile">
+                        <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100"><i class="fas fa-id-badge w-6 text-center text-xs"></i></div>
+                        Settings
+                    </button>
+                </nav>
+            </aside>
+
+            <!-- Dashboard Ecosystem -->
+            <div class="flex-1 space-y-10">
+                
+                <!-- Tab: Overview -->
+                <div id="tab-overview" class="dash-tab space-y-10 reveal-up">
+                    <div class="space-y-2">
+                        <h2 class="text-xs font-black text-primary uppercase tracking-[0.3em] mb-4">Dashboard</h2>
+                        <h1 class="text-4xl font-extrabold text-dark tracking-tighter">Overview</h1>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-white p-8 rounded-[2.5rem] border border-gray-50 shadow-sm hover:shadow-2xl transition-all group relative overflow-hidden">
+                             <p class="text-[10px] font-black text-gray-300 uppercase tracking-widest mb-4 group-hover:text-primary transition-colors">Total Spent</p>
+                             <h4 class="text-3xl font-black text-dark tracking-tighter" id="stat-total-spent">PKR 0</h4>
+                             <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-primary/5 rounded-full blur-2xl"></div>
+                        </div>
+                        <div class="bg-white p-8 rounded-[2.5rem] border border-gray-50 shadow-sm hover:shadow-2xl transition-all group relative overflow-hidden">
+                             <p class="text-[10px] font-black text-gray-300 uppercase tracking-widest mb-4 group-hover:text-primary transition-colors">Total Orders</p>
+                             <h4 class="text-3xl font-black text-dark tracking-tighter" id="stat-order-count">0</h4>
+                             <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-secondary/5 rounded-full blur-2xl"></div>
+                        </div>
+                        <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all group relative overflow-hidden">
+                             <p class="text-[10px] font-black text-gray-300 uppercase tracking-widest mb-4 group-hover:text-primary transition-colors">Saved Items</p>
+                             <h4 class="text-3xl font-black text-dark tracking-tighter" id="stat-wishlist">0</h4>
+                             <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-orange-500/5 rounded-full blur-2xl"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Orders -->
+                <div id="tab-orders" class="dash-tab hidden space-y-10">
+                    <div class="space-y-2">
+                        <h2 class="text-xs font-black text-primary uppercase tracking-[0.3em] mb-4">Your Purchases</h2>
+                        <h1 class="text-4xl font-extrabold text-dark tracking-tighter">Order History</h1>
+                    </div>
+                    <div id="orders-container" class="grid gap-8">
+                        <!-- Skeletons -->
+                        <div class="h-64 bg-white rounded-[2.5rem] border border-gray-100 skeleton"></div>
+                        <div class="h-64 bg-white rounded-[2.5rem] border border-gray-100 skeleton"></div>
+                    </div>
+                </div>
+
+                <!-- Tab: Wishlist -->
+                <div id="tab-wishlist" class="dash-tab hidden space-y-10">
+                    <div class="space-y-2">
+                        <h2 class="text-xs font-black text-primary uppercase tracking-[0.3em] mb-4">Saved Later</h2>
+                        <h1 class="text-4xl font-extrabold text-dark tracking-tighter">Your Wishlist</h1>
+                    </div>
+                    <div id="wishlist-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Wishlist Items -->
+                    </div>
+                </div>
+
+                <!-- Tab: Profile -->
+                <div id="tab-profile" class="dash-tab hidden space-y-10">
+                    <div class="space-y-2">
+                        <h2 class="text-xs font-black text-primary uppercase tracking-[0.3em] mb-4">Account Settings</h2>
+                        <h1 class="text-4xl font-extrabold text-dark tracking-tighter">Your Profile</h1>
+                    </div>
+                    <div class="bg-white/50 backdrop-blur-xl rounded-[2.5rem] p-12 border border-gray-100 shadow-sm max-w-2xl">
+                        <form id="profile-form" class="space-y-8">
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Full Name</label>
+                                <input type="text" id="prof-name" class="input-elite font-black">
+                            </div>
+                            <div class="space-y-4 opacity-60">
+                                <label class="text-[10px] font-black text-gray-400 upper tracking-[0.2em] ml-1">Email Address (Read Only)</label>
+                                <input type="email" id="prof-email" disabled class="input-elite font-black bg-gray-100 cursor-not-allowed border-dashed">
+                            </div>
+                            <button type="submit" class="btn-elite btn-primary w-full !h-16 !rounded-2xl !text-sm !uppercase !tracking-[0.3em] shadow-xl shadow-primary/20">Update Settings</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="mt-8">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 pt-16">
+            <div class="space-y-8">
+                <a href="index.html" class="flex items-center gap-3 text-2xl font-black group">
+                    <div class="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary/30 group-hover:rotate-12 transition-all">
+                        <i class="fas fa-store text-xl"></i>
+                    </div>
+                    <span class="text-dark tracking-tighter">MarketHub</span>
+                </a>
+                <p class="text-sm text-gray-400 font-semibold leading-relaxed">
+                    Giving you the best products from top sellers with safe delivery.
+                </p>
+            </div>
+            <div class="space-y-8">
+                <h4 class="text-xs font-black uppercase tracking-[0.3em] text-dark">Explore</h4>
+                <div class="flex flex-col gap-3">
+                    <a href="index.html" class="footer-link">Home</a>
+                    <a href="products.html" class="footer-link">Products</a>
+                    <a href="cart.html" class="footer-link">My Cart</a>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <h4 class="text-xs font-black uppercase tracking-[0.3em] text-dark">Support</h4>
+                <div class="flex flex-col gap-3">
+                    <a href="track-order.html" class="footer-link">Track Order</a>
+                    <a href="#" class="footer-link">Help Center</a>
+                    <a href="#" class="footer-link">Returns</a>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <h4 class="text-xs font-black uppercase tracking-[0.3em] text-dark">Updates</h4>
+                <div class="flex gap-2">
+                    <input type="email" placeholder="Email..." class="input-elite text-xs py-3.5 flex-1">
+                    <button class="w-12 h-12 bg-dark text-white rounded-xl hover:bg-primary transition-all"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-100 py-12 text-center">
+            <p class="text-[10px] font-black text-gray-300 uppercase tracking-[0.5em]">&copy; 2026 MARKET HUB. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = MarketHubAPI.auth.getUser();
+            if (!user) { window.location.href = 'login.html'; return; }
+
+            document.getElementById('display-name').innerText = user.name;
+            document.getElementById('display-email').innerText = user.email;
+            document.getElementById('prof-name').value = user.name;
+            document.getElementById('prof-email').value = user.email;
+            document.getElementById('user-avatar-large').innerText = user.name.charAt(0).toUpperCase();
+
+            loadDashboardData();
+        });
+
+        async function loadDashboardData() {
+            try {
+                const response = await MarketHubAPI.orders.getMyOrders();
+                if (response.success && response.orders) {
+                    renderOrders(response.orders);
+                    updateStats(response.orders);
+                }
+                loadWishlist();
+            } catch (err) { console.error(err); }
+        }
+
+        function updateStats(orders) {
+            const total = orders.reduce((s, o) => s + (o.total || 0), 0);
+            document.getElementById('stat-total-spent').innerText = `PKR ${total.toLocaleString()}`;
+            document.getElementById('stat-order-count').innerText = orders.length;
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            document.getElementById('stat-wishlist').innerText = wishlist.length;
+        }
+
+        function renderOrders(orders) {
+            const container = document.getElementById('orders-container');
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div class="py-24 text-center bg-white rounded-[3rem] border-4 border-dashed border-gray-50 group hover:border-primary/20 transition-all duration-500">
+                        <i class="fas fa-folder-open text-6xl text-gray-100 mb-6 group-hover:text-primary transition-colors"></i>
+                        <p class="text-gray-300 font-black uppercase tracking-[0.3em] text-xs">No Orders Found</p>
+                    </div>`;
+                return;
+            }
+            container.innerHTML = orders.map(o => `
+                <div class="bg-white rounded-[3rem] p-10 border border-gray-100 shadow-sm hover:shadow-2xl hover:border-primary/10 transition-all duration-500 group reveal-up-active">
+                    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 mb-10 pb-10 border-b border-gray-50">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+                                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">ORDER ID: ${o.orderNumber || `#${o._id.substring(o._id.length-8).toUpperCase()}`}</p>
+                            </div>
+                            <h3 class="text-2xl font-black text-dark tracking-tighter">Placed on ${new Date(o.createdAt).toLocaleDateString(undefined, {month: 'long', day: 'numeric', year: 'numeric'})}</h3>
+                        </div>
+                        <div class="px-6 py-2 bg-indigo-50 text-primary border border-primary/20 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-sm">${o.status || 'Verified'}</div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        ${o.items.map(i => `
+                            <div class="flex items-center gap-6 bg-gray-50/50 rounded-3xl p-6 border border-gray-50 hover:bg-white hover:shadow-xl transition-all duration-500 cursor-pointer">
+                                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center font-black text-2xl text-primary shadow-sm border border-indigo-100">${i.quantity}x</div>
+                                <div>
+                                    <h4 class="font-black text-dark text-base tracking-tight mb-1">${i.name || 'Premium Item'}</h4>
+                                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Price: PKR ${(i.price * i.quantity).toLocaleString()}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="mt-10 flex flex-col md:flex-row justify-between items-start md:items-center pt-10 border-t border-gray-50 gap-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-success/10 text-success rounded-2xl flex items-center justify-center shadow-lg shadow-success/10"><i class="fas fa-truck-fast"></i></div>
+                            <span class="text-xs font-black text-dark uppercase tracking-widest">Delivery in Progress</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-gray-400 font-black uppercase tracking-widest text-[9px] block mb-2">Total Amount:</span>
+                            <span class="text-4xl font-black text-dark tracking-tighter">PKR ${(o.total || 0).toLocaleString()}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadWishlist() {
+            const container = document.getElementById('wishlist-container');
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            if (wishlist.length === 0) {
+                container.innerHTML = '<div class="col-span-full py-16 text-center text-gray-200 font-extrabold italic bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-100 uppercase tracking-[0.3em] text-xs">No Saved Items.</div>';
+                return;
+            }
+            container.innerHTML = wishlist.map(id => `
+                <div class="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm flex justify-between items-center group hover:shadow-2xl transition-all duration-500">
+                    <div class="flex items-center gap-6">
+                        <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-primary group-hover:scale-110 transition-transform"><i class="fas fa-heart text-xl"></i></div>
+                        <div>
+                            <span class="font-black text-dark text-xs block mb-1">Product ID: #${id.substring(id.length-8).toUpperCase()}</span>
+                            <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">In Stock</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="window.location.href='product-detail.html?id=${id}'" class="w-10 h-10 bg-gray-50 text-gray-400 rounded-xl hover:bg-primary hover:text-white transition-all"><i class="fas fa-eye text-xs"></i></button>
+                        <button onclick="MarketHub.wishlist.toggle('${id}'); loadWishlist();" class="w-10 h-10 bg-red-50 text-red-400 rounded-xl hover:bg-red-500 hover:text-white transition-all"><i class="fas fa-trash-alt text-xs"></i></button>
+                    </div>
+                </div>`).join('');
+        }
+
+        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const name = document.getElementById('prof-name').value;
+            try {
+                btn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> UPDATING...';
+                btn.disabled = true;
+                const response = await MarketHubAPI.fetchWithAuth('/api/auth/profile', { method: 'PUT', body: JSON.stringify({ name }) });
+                if (response.success) {
+                    showToast('Profile Updated', 'success');
+                    localStorage.setItem('user', JSON.stringify(response.user));
+                    setTimeout(() => window.location.reload(), 1000);
+                } else { showToast('Update Error', 'error'); }
+            } catch (err) { console.error(err); }
+            finally { btn.innerHTML = 'Update Settings'; btn.disabled = false; }
+        });
+
+        function switchTab(id) {
+            document.querySelectorAll('.dash-tab').forEach(t => t.classList.add('hidden'));
+            document.getElementById(`tab-${id}`).classList.remove('hidden');
+            document.querySelectorAll('.dash-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-${id}`).classList.add('active');
+        }
+    </script>
+
+    <style>
+        .dash-btn {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            border-radius: 1.5rem;
+            font-weight: 800;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            color: #94a3b8;
+            transition: all 0.4s var(--transition);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            border-left: 4px solid transparent;
+        }
+        .dash-btn.active { 
+            background: #fff; 
+            color: var(--primary); 
+            box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.15); 
+            border-left: 4px solid var(--primary);
+            transform: translateX(8px);
+        }
+        .dash-btn:not(.active):hover { 
+            background: #fff; 
+            color: var(--dark); 
+            transform: translateX(8px);
+        }
+        .reveal-up { opacity: 0; transform: translateY(30px); transition: all 0.8s var(--transition); }
+        .reveal-up-active { opacity: 1; transform: translateY(0); }
+    </style>
+</body>
+</html>

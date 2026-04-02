@@ -1,0 +1,225 @@
+/* 
+   MarketHub Premium Design System - Elite UI/UX
+   Palette: Indigo (#4f46e5), Slate (#1e293b), White (#ffffff)
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;600;700&display=swap');
+
+:root {
+    --primary: #4f46e5;
+    --primary-light: #818cf8;
+    --primary-dark: #3730a3;
+    --secondary: #06b6d4;
+    --dark: #0f172a;
+    --slate: #1e293b;
+    --gray-light: #f8fafc;
+    --gray-border: #e2e8f0;
+    --white: #ffffff;
+    --success: #10b981;
+    --danger: #ef4444;
+    --transition: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    color: var(--dark);
+    -webkit-font-smoothing: antialiased;
+    background: #fff;
+    scroll-behavior: smooth;
+}
+
+/* Elite Typography */
+h1, h2, h3, h4 { font-weight: 800; color: var(--dark); letter-spacing: -0.04em; line-height: 1; }
+p { line-height: 1.5; color: #64748b; font-size: 0.95rem; }
+
+/* Interactive Components */
+.btn-elite {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    transition: all 0.3s duration-300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-elite:active {
+    transform: scale(0.95);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.3);
+}
+
+.card-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.product-card {
+    transition: all 0.4s var(--transition);
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px -12px rgba(0,0,0,0.08);
+}
+
+/* Skeleton Loading System */
+.skeleton {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Forms & Inputs */
+.input-elite {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border-radius: 1rem;
+    border: 2px solid var(--gray-border);
+    transition: all 0.3s var(--transition);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.input-elite:focus {
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+    outline: none;
+}
+
+/* Animations */
+@keyframes revealUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal-up {
+    animation: revealUp 0.8s var(--transition) forwards;
+}
+
+/* Navigation System */
+.navbar-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: all 0.3s;
+}
+
+.navbar-scrolled {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #f1f5f9;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+}
+
+/* Footer Experience */
+footer {
+    border-top: 1px solid var(--gray-border);
+    background: #fdfdfd;
+    padding: 3rem 0 2rem;
+}
+
+.footer-link {
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.2s var(--transition);
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.footer-link:hover {
+    color: var(--primary);
+    transform: translateX(6px);
+}
+
+/* Utility Animations */
+.hover-lift { transition: transform 0.3s var(--transition); }
+.hover-lift:hover { transform: translateY(-4px); }
+
+.hover-scale { transition: transform 0.3s var(--transition); }
+.hover-scale:hover { transform: scale(1.05); }
+
+/* Scrollbar Design */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #f8fafc; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 20px; border: 3px solid #f8fafc; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Dashboard UI */
+.dash-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    font-weight: 700;
+    transition: all 0.3s duration-300;
+    color: #94a3b8;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.dash-btn.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+    transform: scale(1.05);
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Price Tag Elite */
+.price-tag {
+    color: var(--dark);
+    font-weight: 900;
+    letter-spacing: -0.025em;
+}
+
+/* Toast System Overrides */
+#toast-container .toast {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(24px);
+    transition: all 0.5s duration-500;
+}
+
